@@ -50,7 +50,7 @@ Laravel WebAuthn을 완전히 비활성화 하고 싶다면 ```config/webauthn.p
 
 * **스키마**
 
-users테이블과 webauthn_keys는 현재 일대일관계(워크벤치 오류로 릴레이션이 안보이네요..), 하나의 유저가 여러개의 키를 가지지 못함
+(워크벤치 오류로 릴레이션이 안보이네요..)
 ![](https://user-images.githubusercontent.com/35277854/73592039-36057080-4539-11ea-8341-e0fef8356544.png)
 
 # Usage
