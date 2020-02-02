@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddWebauthn extends Migration
 {
@@ -15,7 +15,7 @@ class AddWebauthn extends Migration
     {
         Schema::create('webauthn_keys', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id');
+            $table->bigInteger('user_id')->unsigned();
 
             $table->string('name')->default('key');
             $table->string('credentialId', 255);
@@ -28,7 +28,7 @@ class AddWebauthn extends Migration
             $table->integer('counter');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->index('credentialId');
         });
     }

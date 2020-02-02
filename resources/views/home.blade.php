@@ -14,15 +14,9 @@
                         </div>
                     @endif
 
-                    <p>
                     You are logged in!
-                    </p>
 
-                    <p>
-                        <a href="{{ route('webauthn.register') }}">
-                            Register a new security key.
-                        </a>
-                    </p>
+                    <a href="{{ route('webauthn.register') }}">WebAuthn 등록하기</a>
                 </div>
             </div>
         </div>

@@ -31,13 +31,6 @@ WebAuthn.prototype.register = function(publicKey, callback) {
   let publicKeyCredential = Object.assign({}, publicKey);
   publicKeyCredential.user.id = this._bufferDecode(publicKey.user.id);
   publicKeyCredential.challenge = this._bufferDecode(this._base64Decode(publicKey.challenge));
-
-  publicKeyCredential.authenticatorSelection = {
-    authenticatorAttachment: 'platform',
-    requireResidentKey: false,
-    userVerification : "required",
-  };
-
   if (publicKey.excludeCredentials) {
     publicKeyCredential.excludeCredentials = this._credentialDecode(publicKey.excludeCredentials);
   }
