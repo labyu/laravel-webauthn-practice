@@ -1,72 +1,116 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+Laravel Project에 WebAuthn 도입하기
+====================================
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+참조 [asbiin/laravel-webauthn](https://github.com/asbiin/laravel-webauthn)
 
-## About Laravel
+# Spec
+- PHP 7.3
+- Laravel 5.8
+- MySQL 8.0
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+이 프로젝트를 테스트하기 위해서는 아래와 같이 해주세요:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* 이 저장소를 clone 합니다
 
-## Learning Laravel
+* 패키지를 설치하고 laravel porject를 초기화합니다
+    ```sh
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* DB 설정
+.env 파일을 자신의 환경과 맞게 설정해주세요
+    ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=DB
+    DB_USERNAME=username
+    DB_PASSWORD=password
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* 그 후 마이그레이션 해주세요
+    ```bash
+    php artisan migrate
+    ```
 
-## Laravel Sponsors
+* Auth와 관련된 사항은 기본 라라벨의 스펙을 따릅니다
+    [Laravel - 인증](https://laravel.kr/docs/6.x/authentication)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* **서버는 https를 지원해야합니다. (e.g. https://localhost)**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+# Configuration
+Laravel WebAuthn을 완전히 비활성화 하고 싶다면 ```config/webauthn.php```를 수정하세요
+```php
+'enabled' => false,
+```
 
-## Contributing
+* **스키마**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+(워크벤치 오류로 릴레이션이 안보이네요..)
+![](https://user-images.githubusercontent.com/35277854/73592039-36057080-4539-11ea-8341-e0fef8356544.png)
 
-## Security Vulnerabilities
+# Usage
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+[Laravel 기본 인증 Route](https://laravel.kr/docs/6.x/authentication)
+* /register (GET, POST)
+* /login (GET, POST)
+* /home (GET)
+* /logout (POST)
 
-## License
+Laravel WebAuthn Route
+* GET ```/webauthn/auth``` / ```route('webauthn.login')``` WebAuthn 인증 뷰
+* POST ```/webauthn/auth``` / ```route('webauthn.auth')``` 유효성 검사 및 WebAuthn 인증
+* GET ```/webauthn/register``` / ```route('webauthn.register')``` WebAuthn 등록 뷰
+* POST ```/webauthn/register``` / ```route('webauthn.create')``` WebAuthn 등록 및 검사
+* DELETE ```/webauthn/{id}``` / ```route('webauthn.destroy')``` 등록 데이터 삭제
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Route
+auth 미들웨어를 webauthn으로 걸어줍니다
+```php
+Route::middleware(['auth', 'webauthn'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+```
+
+# Customize
+WebAuthn view : 
+* 등록 : ```resources/view/vendor/webauthn/authenticate.blade.php```
+* 인증 : ```resources/view/vendor/webauthn/register.blade.php```
+
+config/webauthn.php에서 여러가지 설정을 할 수 있습니다.
+
+* authenticatorSelection : https://www.w3.org/TR/webauthn/#authenticatorSelection
+    ```php
+    'authenticator_selection_criteria' => [
+
+        /*
+        | See https://www.w3.org/TR/webauthn/#attachment
+        */
+        'attachment_mode' => \Webauthn\AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+
+        'require_resident_key' => false,
+
+        /*
+        | See https://www.w3.org/TR/webauthn/#userVerificationRequirement
+        */
+        'user_verification' => \Webauthn\AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
+    ],
+    ```
+    
+    
+* Webauthn Public Key Credential Parameters : https://www.w3.org/TR/webauthn/#alg-identifier
+    ```php
+    'public_key_credential_parameters' => [
+        \Cose\Algorithms::COSE_ALGORITHM_ES256,
+        \Cose\Algorithms::COSE_ALGORITHM_RS256,
+    ],
+    ```
+
+* Google Safetynet ApiKey : https://developer.android.com/training/safetynet/attestation
+    ```php
+    'google_safetynet_api_key' => '',
+    ```
