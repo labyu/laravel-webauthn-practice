@@ -83,7 +83,6 @@ WebAuthn view :
 * 등록 : ```resources/view/vendor/webauthn/authenticate.blade.php```
 * 인증 : ```resources/view/vendor/webauthn/register.blade.php```
 
-<<<<<<< HEAD
 config/webauthn.php에서 여러가지 설정을 할 수 있습니다.
 
 * authenticatorSelection : https://www.w3.org/TR/webauthn/#authenticatorSelection
@@ -117,16 +116,3 @@ config/webauthn.php에서 여러가지 설정을 할 수 있습니다.
     ```php
     'google_safetynet_api_key' => '',
     ```
-=======
-
-W3C WebAuthn API : ```public/vendor/webauthn/webauthn.js```
-* authenticatorSelection :
-    ```javascript
-    authenticatorSelection = {
-        authenticatorAttachment: 'platform',
-        requireResidentKey: false,
-        userVerification : "required"
-      };    
-    ```
-    
-    
