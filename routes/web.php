@@ -20,3 +20,7 @@ Auth::routes();
 Route::middleware(['auth', 'webauthn'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 });
+
+Route::get("/test/webauthn/register", function() {
+    return view('auth.register_test');
+});
