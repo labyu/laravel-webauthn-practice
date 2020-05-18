@@ -3,7 +3,7 @@ Laravel Project에 WebAuthn 도입하기
 1시간만에 Laravel Project에 WebAuthn 붙이기
 
 
-참조 [asbiin/laravel-webauthn](https://github.com/asbiin/laravel-webauthn)
+출처 [asbiin/laravel-webauthn](https://github.com/asbiin/laravel-webauthn)
 
 # Spec
 - PHP 7.3
